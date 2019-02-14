@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/RECIPES.dir/main.cpp.obj"
+  "CMakeFiles/RECIPES.dir/main.cpp.o"
   "RECIPES.pdb"
-  "RECIPES.exe"
-  "RECIPES.exe.manifest"
-  "libRECIPES.dll.a"
+  "RECIPES"
 )
 
 # Per-language clean rules from dependency scanning.

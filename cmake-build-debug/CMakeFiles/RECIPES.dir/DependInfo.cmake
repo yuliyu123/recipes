@@ -4,13 +4,19 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/loohan/CLionProjects/recipes/main.cpp" "C:/Users/loohan/CLionProjects/recipes/cmake-build-debug/CMakeFiles/RECIPES.dir/main.cpp.obj"
+  "/Users/looperX/CLionProjects/recipes/main.cpp" "/Users/looperX/CLionProjects/recipes/cmake-build-debug/CMakeFiles/RECIPES.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "BOOST_ERROR_CODE_HEADER_ONLY"
+  "BOOST_SYSTEM_NO_DEPRECATED"
+  )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "C:/N-5CG719422G-Data/loohan/Desktop/nokia/OpenSource/boost_1_64_0"
+  "/usr/local/include"
   )
 
 # Targets to which this target links.
