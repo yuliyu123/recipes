@@ -1,0 +1,3 @@
+C:/Users/loohan/CLionProjects/recipes/cmake-build-debug/CMakeFiles/RECIPES.dir
+C:/Users/loohan/CLionProjects/recipes/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/loohan/CLionProjects/recipes/cmake-build-debug/CMakeFiles/rebuild_cache.dir

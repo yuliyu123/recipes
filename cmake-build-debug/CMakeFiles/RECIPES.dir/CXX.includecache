@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/loohan/CLionProjects/recipes/main.cpp
+iostream
+-
+memory
+-
+smart_ptr/MySmartPtr.h
+C:/Users/loohan/CLionProjects/recipes/smart_ptr/MySmartPtr.h
+
+C:/Users/loohan/CLionProjects/recipes/smart_ptr/MySmartPtr.h
+iostream
+-
+
