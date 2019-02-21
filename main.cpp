@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "smart_ptr/MySmartPtr.h"
+#include "ThreadPool/ThreadPool.h"
 
 struct MyClass
 {
@@ -38,3 +39,4 @@ int main()
     std::cout << *p << std::endl;
     return 0;
 }
+
