@@ -1,42 +1,46 @@
 #include <iostream>
 #include <memory>
+#include <string>
+#include <functional>
+#include <map>
 
 #include "smart_ptr/MySmartPtr.h"
 #include "ThreadPool/ThreadPool.h"
 
-struct MyClass
+using namespace std;
+
+struct MyStruct
 {
-public:
-    int x = 1;
-    float y = 2.0;
+    std::string file;
+    std::string path;
 };
+
+using StructNotifier = std::function<void(const MyStruct&)>;
+
+void setStruct(MyStruct testStruct, const StructNotifier& notifier)
+{
+    MyStruct context;
+    context.file = testStruct.file;
+    context.path = testStruct.path;
+    notifier(context);
+}
+
+void printStructVal(MyStruct ctx)
+{
+    std::cout << "file is: " << ctx.file << "\n" << "path is: " << ctx.path << std::endl;
+}
 
 int main()
 {
-    MyClass* class_01 = new MyClass;
-    SmartPtr<MyClass> smartPtr_04(class_01);
-    std::cout << "myclass->x: " << smartPtr_04->x << std::endl;
-    std::cout << "myclass->y: " << smartPtr_04->y << std::endl;
+    MyStruct myStruct;
+    myStruct.file = "file _01";
+    myStruct.path = "path _02";
 
-    int* p = new int(100);
+    const auto& cb_2 = std::bind(setStruct, std::placeholders::_1, std::placeholders::_2);
+    const auto& handler = [&](MyStruct struct_02)  // 匿名函数捕捉实参
     {
-        SmartPtr<int> smartPtr_01(p);
-        std::cout << smartPtr_01.use_count() << std::endl;
-        {
-            SmartPtr<int> smartPtr_02(smartPtr_01);
-            std::cout << smartPtr_02.use_count() << std::endl;
-            {
-                SmartPtr<int> smartPtr_03(smartPtr_02);
-                smartPtr_03 = smartPtr_01;
-                std::cout << smartPtr_03.use_count() << std::endl;
-            }
-        }
-        std::cout << smartPtr_01.use_count() << std::endl;
-        std::cout << *p << std::endl;
-    }
-
-    // count 为0, p原来指向的内存块上面的值被delete掉，为任意值
-    std::cout << *p << std::endl;
-    return 0;
+        printStructVal(struct_02);
+    };
+    cb_2(myStruct, handler);  // 逻辑：绑定cb_2-> 声明lambda函数，捕获setStruct中notifier的MyStruct参数-> 使用MyStruct参数参数
 }
 

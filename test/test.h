@@ -1,49 +1,24 @@
 //
 // Created by looperX on 2019-02-14.
-//
+// static lib: /usr/local/lib/libglog.a
+// headers: /usr/local/include/glog/
+// g++ glog_test2.cpp -lglog -lgflags -lpthread -o glog_test
+
+
 
 #ifndef RECIPES_TEST_H
 #define RECIPES_TEST_H
 
-#include <functional>
-#include <iostream>
-#include <mutex>
-#include <thread>
-#include <vector>
+#include <glog/logging.h>
 
-#define BOOST_ASIO_NO_DEPRECATED
-#include "boost/asio.hpp"
-
-class ThreadPool {
-public:
-    explicit ThreadPool(std::size_t size)
-            : work_guard_(boost::asio::make_work_guard(io_context_)) {
-        workers_.reserve(size);
-        for (std::size_t i = 0; i < size; ++i) {
-            workers_.emplace_back(&boost::asio::io_context::run, &io_context_);
-        }
-    }
-
-    ~ThreadPool() {
-        io_context_.stop();
-
-        for (auto& w : workers_) {
-            w.join();
-        }
-    }
-
-    // Add new work item to the pool.
-    template<class F>
-    void Enqueue(F f) {
-        boost::asio::post(io_context_, f);
-    }
-
-private:
-    std::vector<std::thread> workers_;
-    boost::asio::io_context io_context_;
-
-    typedef boost::asio::io_context::executor_type ExecutorType;
-    boost::asio::executor_work_guard<ExecutorType> work_guard_;
-};
+int main(int argc,char* argv[])
+{
+    google::InitGoogleLogging(argv[0]);  // 初始化 glog
+    google::ParseCommandLineFlags(&argc, &argv, true);  // 初始化 gflags
+    LOG(INFO) << "Hello, GOOGLE!";  // INFO 级别的日志
+    LOG(ERROR) << "ERROR, GOOGLE!";  // ERROR 级别的日志
+    return 0;
+}
 
 #endif //RECIPES_TEST_H
+
