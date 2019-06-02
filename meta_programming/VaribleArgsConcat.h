@@ -1,3 +1,11 @@
+//
+// Created by looperX on 2019-05-31.
+//
+// https://cloud.tencent.com/developer/article/1347059
+
+#ifndef RECIPES_VARIBLEARGSCONCAT_H
+#define RECIPES_VARIBLEARGSCONCAT_H
+
 #include <iostream>
 #include <memory>
 #include <string>
@@ -8,14 +16,12 @@
 #include <stdio.h>
 #include <stdio.h>
 #include <string>
-#include <optional>
 
 #include "boost/optional.hpp"
 #include "smart_ptr/MySmartPtr.h"
 //#include "ThreadPool/ThreadPool.h"
 
 using namespace std;
-//std::optional<std::string> feedback;  // since C++ 17
 boost::optional<std::string> feedback;
 
 template <typename T = string, typename Arg>
@@ -52,7 +58,7 @@ auto generalPrint_02(Args&&... args)
     // 这里的执行顺序：先执行std::forward<Args>(args) -> 到逗号表达式取逗号后0，依次类推执行完整个args
     initializer_list<int>{([&]{
         oss << args;
-        }(),0)...};
+    }(),0)...};
     feedback = oss.str();
     return feedback;
 }
@@ -60,10 +66,13 @@ auto generalPrint_02(Args&&... args)
 int main()
 {
 //    generalPrint("hello, ", " i'm ", "an error, number is ", std::to_string(5));
-    generalPrint_02("hello,", " i'm ", "an  error, number is ", 500);
-    cout << *feedback << endl;
+    generalPrint_02("hello, ", " i'm ", "an error, number is ", 500);
+    cout << "output: " + feedback.get() << endl;
 
     int a = 1, b = 2, c = 3, d = 4;
     d = (a = b, c);  // 逗号表达式，先执行a = b, 再是取逗号后面的值即c, 再赋值给a
     cout << d << endl;
 }
+
+
+#endif //RECIPES_VARIBLEARGSCONCAT_H
