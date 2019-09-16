@@ -1,69 +1,47 @@
+//
+// Created by looperX on 2019-06-24.
+//
 #include <iostream>
-#include <memory>
 #include <string>
-#include <ostream>
-#include <sstream>
-#include <functional>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <map>
-#include <stdio.h>
-#include <stdio.h>
-#include <string>
-#include <optional>
+#include <map>
+#include <algorithm>
+#include <utility>
 
-#include "boost/optional.hpp"
-#include "smart_ptr/MySmartPtr.h"
-//#include "ThreadPool/ThreadPool.h"
+#include "timer/timercpp.h"
 
 using namespace std;
-//std::optional<std::string> feedback;  // since C++ 17
-boost::optional<std::string> feedback;
 
-template <typename T = string, typename Arg>
-auto func(Arg arg) -> decltype(arg)
-{
-    return arg;
-}
+std::mutex m;
+std::condition_variable cv;
+std::string data;
+bool ready = false;
+bool processed = false;
 
-template<class F, class... Args> void expand(const F& f, Args&&...args)
-{
-    initializer_list<int>{(f(std::forward<Args>(args)),0)...};
-}
-
-template<typename... Args>
-auto generalPrint(Args&&... args)
-{
-    std::ostringstream oss;
-    auto func = [&](std::string input)
-    {
-        oss << input;
-    };
-    // 初始化列表表达式，因为使用逗号表达式，这里赋值为0，即创建为一个全为0的list
-    // 这里的执行顺序：先执行std::forward<Args>(args) -> 到逗号表达式取逗号后0，依次类推执行完整个args
-    initializer_list<int>{(func(std::forward<Args>(args)),0)...};
-    feedback = oss.str();
-    return feedback;
-}
-
-template<typename... Args>
-auto generalPrint_02(Args&&... args)
-{
-    std::ostringstream oss;
-    // 初始化列表表达式，因为使用逗号表达式，这里赋值为0，即创建为一个全为0的list
-    // 这里的执行顺序：先执行std::forward<Args>(args) -> 到逗号表达式取逗号后0，依次类推执行完整个args
-    initializer_list<int>{([&]{
-        oss << args;
-        }(),0)...};
-    feedback = oss.str();
-    return feedback;
-}
+typedef map<string, string> ConnMap;
+typedef pair<string, string> ConnPair;
 
 int main()
 {
-//    generalPrint("hello, ", " i'm ", "an error, number is ", std::to_string(5));
-    generalPrint_02("hello,", " i'm ", "an  error, number is ", 500);
-    cout << *feedback << endl;
+    ConnMap connMap;
+//    connMap["one"] = "one";
+    connMap["two"] = "two";
+    connMap["three"] = "three";
 
-    int a = 1, b = 2, c = 3, d = 4;
-    d = (a = b, c);  // 逗号表达式，先执行a = b, 再是取逗号后面的值即c, 再赋值给a
-    cout << d << endl;
+    string name = "two";
+    std::find_if(connMap.begin(),connMap.end(), [&](ConnPair pair)
+    {
+        if (pair.first == name)
+        {
+            std::cout << "found" << std::endl;
+            return connMap.erase(name);
+        }
+    });
+
+    std::cout << connMap.size() << std::endl;
+    std::cout << connMap["one"] << std::endl;
 }
+
